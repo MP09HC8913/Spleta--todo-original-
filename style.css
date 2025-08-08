@@ -483,3 +483,100 @@ body {
   }
   
   
+  /* 📱 Mobile & Tablet Responsive Design */
+@media (max-width: 1024px) {
+  body {
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Make buttons stack nicely on smaller screens */
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  /* Theme & Productivity Buttons */
+  #themeBtn,
+  #productivityBtn,
+  #developerBtn {
+    position: fixed;
+    width: auto;
+    font-size: 14px;
+    padding: 8px 10px;
+    z-index: 1000;
+  }
+
+  #themeBtn {
+    top: 10px;
+    left: 10px;
+  }
+
+  #productivityBtn {
+    top: 10px;
+    right: 10px;
+  }
+
+  #developerBtn {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  /* Theme panel adapts to screen size */
+  #themePanel {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    font-size: 14px;
+  }
+
+  /* Productivity popup fits on smaller screens */
+  #productivityPopup {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    font-size: 14px;
+  }
+}
+
+/* 📱 Extra Small Devices (Phones in portrait) */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  .task-item {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  #themePanel,
+  #productivityPopup {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+/* 💻 Large Screens */
+@media (min-width: 1025px) {
+  body {
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 10px 14px;
+  }
+
+  #themePanel,
+  #productivityPopup {
+    width: 300px;
+    font-size: 16px;
+  }
+}
