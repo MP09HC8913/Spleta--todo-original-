@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spleta – Features</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background 0.4s ease;
+    }
+
+    body.theme-light {
+      background: url('images/img1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #111;
+    }
+
+    body.theme-dark {
+      background: url('images/img2.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #eee;
+    }
+
+    body.theme-blue {
+      background: url('images/imp3.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    body.theme-forest {
+      background: url('images/img4.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    .theme-option {
+      display: block;
+      margin: 5px 0;
+      padding: 6px 12px;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #themeBtn {
+      position: absolute;
+      top: 50px;
+      left: 20px;
+      background: #222;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #themePanel {
+      display: none;
+      position: fixed;
+      top: 90px;
+      left: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    #productivityBtn {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #productivityPopup {
+      display: none;
+      position: fixed;
+      top: 120px;
+      right: 20px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      z-index: 1001;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .add-theme-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+.add-theme-btn:hover {
+  background-color: #555;
+}
+
+
+    .info-box {
+      margin-top: 200px;
+      text-align: center;
+      font-size: 18px;
+      color: #333;
+
+    }
+
+    /* .info-box p{
+      background-color: red;
+    }
+
+    #pg1{
+      width: 10px;
+    } */
+  </style>
+</head>
+<body>
+
+  <button id="backBtn" class="back-button back-nav-btn" ></button>
+
+
+  <!-- 🌈 Theme Button -->
+  <button id="themeBtn">Themes</button>
+
+  <!-- 🎨 Theme Panel -->
+  <div id="themePanel">
+    <h4 style="color: black;">Choose Theme:</h4>
+    <button class="theme-option" data-theme="light">Light</button>
+    <button class="theme-option" data-theme="dark">Dark</button>
+    <button class="theme-option" data-theme="blue">Blue</button>
+    <button class="theme-option" data-theme="forest">Forest</button>
+
+    <div id="customThemeContainer"></div>
+    <!-- Add below your 4 default themes -->
+    <div id="customThemeSlot"></div>
+    <button id="addCustomThemeBtn" class="add-theme-btn">+ Add Theme</button>
+    
+<input type="file" id="customThemeInput" accept="image/*" style="display: none;" />
+
+  </div>
+
+  <!-- 📊 Productivity Button
+  <button id="productivityBtn">Productivity</button>
+
+  <!-- 📈 Productivity Popup 
+  <div id="productivityPopup">
+    <canvas id="productivityChart" width="250" height="250"></canvas>
+  </div> -->
+
+  <!-- Info -->
+  <div class="info-box">
+    <p id="pg1">These settings are linked to your main app using localStorage.</p>
+    <p id="pg2">Open <strong>intex.html</strong> to see changes applied.</p>
+  </div>
+
+
+<!-- Developer Button and Panel -->
+<button id="developerBtn" class="premium-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">Developer</button>
+
+
+<div id="developerPanel" style="display:none; position: fixed; bottom: 70px; right: 20px; background: rgb(255, 255, 255); padding: 12px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 999;">
+  <p style="margin: 0 0 6px;"><strong style="color: black;">Enter Password:</strong></p>
+  <input type="password" id="devPassword" style="padding: 6px; width: 160px; border: 1px solid black;" />
+  <button id="submitDevPassword" style="padding: 6px 10px; margin-left: 6px; background: #333; color: white; border: none; border-radius: 6px; cursor: pointer;">Enter</button>
+</div>
+
+<!-- <div id="developerPanel" style="display: none; position: fixed; bottom: 70px; right: 20px; background: white; padding: 10px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.2); z-index: 999;">
+  <h4>Enter Password</h4>
+  <input type="password" id="devPassword" placeholder="Enter Password" style="padding: 6px; margin-bottom: 10px; width: 100%;" />
+  <button id="submitDevPassword" style="padding: 6px 10px;">Enter</button>
+</div> -->
+
+
+
+
+<script>
+  const themeButtons = document.querySelectorAll(".theme-option");
+  const themeInput = document.getElementById("customThemeInput"); // ✅ fixed
+  const addThemeBtn = document.getElementById("addCustomThemeBtn"); // ✅ fixed
+  const themePanel = document.getElementById("themePanel");
+  const body = document.body;
+
+  function applyThemeFromStorage() {
+  const selected = localStorage.getItem("selected-theme");
+  if (selected === "your-theme") {
+    const img = localStorage.getItem("your-custom-theme");
+    if (img) {
+      document.body.style.background = `url('${img}') no-repeat center center fixed`;
+      document.body.style.backgroundSize = "cover";
+      document.body.className = "theme-custom";
+    }
+  } else if (selected) {
+    document.body.className = "theme-" + selected;
+    document.body.style.backgroundImage = ""; // Reset custom bg
+  }
+}
+
+
+  function clearThemeClasses() {
+    body.className = "";
+  }
+
+  // Load saved theme
+  window.addEventListener("DOMContentLoaded", () => {
+    const selected = localStorage.getItem("selected-theme");
+    const customImage = localStorage.getItem("your-custom-theme");
+
+    if (selected === "your-theme" && customImage) {
+      body.style.background = `url('${customImage}') no-repeat center center fixed`;
+      body.style.backgroundSize = "cover";
+    } else if (selected) {
+      body.className = "theme-" + selected;
+    }
+  });
+
+  // Toggle Theme Panel
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    themePanel.style.display = themePanel.style.display === "none" ? "block" : "none";
+  });
+
+  // Default Theme Buttons
+  themeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const selected = btn.dataset.theme;
+      clearThemeClasses();
+      body.classList.add("theme-" + selected);
+      body.style.backgroundImage = "";
+      localStorage.setItem("selected-theme", selected);
+    });
+  });
+
+  // Add Theme button click
+  addThemeBtn.addEventListener("click", () => {
+    themeInput.click();
+  });
+
+  // Upload and apply custom image theme
+  themeInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const imageUrl = e.target.result;
+
+      clearThemeClasses();
+      body.style.background = `url('${imageUrl}') no-repeat center center fixed`;
+      body.style.backgroundSize = "cover";
+
+      // Save to localStorage
+      localStorage.setItem("your-custom-theme", imageUrl);
+      localStorage.setItem("selected-theme", "your-theme");
+
+      // Add "Your Theme" button if not already added
+      if (!document.querySelector("[data-theme='your-theme']")) {
+        const yourThemeBtn = document.createElement("button");
+        yourThemeBtn.textContent = "Custom Theme";
+        yourThemeBtn.className = "theme-option";
+        yourThemeBtn.setAttribute("data-theme", "your-theme");
+
+        document.getElementById("themePanel").insertBefore(yourThemeBtn, addThemeBtn);
+
+        yourThemeBtn.addEventListener("click", () => {
+          clearThemeClasses();
+          body.style.background = `url('${imageUrl}') no-repeat center center fixed`;
+          body.style.backgroundSize = "cover";
+          localStorage.setItem("selected-theme", "your-theme");
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+
+  // 🌟 Re-add "Custom Theme" button if theme exists
+window.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("your-custom-theme");
+  const selected = localStorage.getItem("selected-theme");
+
+  if (saved && !document.querySelector('[data-theme="your-theme"]')) {
+    const btn = document.createElement("button");
+    btn.className = "theme-option";
+    btn.setAttribute("data-theme", "your-theme");
+    btn.textContent = "Custom Theme";
+    document.getElementById("themePanel").insertBefore(btn, document.getElementById("addCustomThemeBtn"));
+
+
+    btn.addEventListener("click", () => {
+      localStorage.setItem("selected-theme", "your-theme");
+      applyThemeFromStorage();
+    });
+  }
+
+  applyThemeFromStorage(); // ✅ Apply saved theme on load
+});
+
+
+
+
+
+
+
+function ensureCustomThemeButtonExists() {
+  if (!document.getElementById("customThemeBtn")) {
+    const customBtn = document.createElement("button");
+    customBtn.id = "customThemeBtn";
+    customBtn.textContent = "Custom Theme";
+    customBtn.className = "theme-option";
+    customBtn.setAttribute("data-theme", "custom");
+    
+    // 👉 Append above the add button (inside #customThemeContainer)
+    document.getElementById("customThemeContainer").appendChild(customBtn);
+
+    customBtn.addEventListener("click", () => {
+      const customImg = localStorage.getItem("custom-theme-bg");
+      if (customImg) {
+        clearThemeClasses();
+        document.body.classList.add("theme-custom");
+        document.body.style.backgroundImage = `url(${customImg})`;
+        localStorage.setItem("selected-theme", "custom");
+      }
+    });
+  }
+}
+
+  
+</script>
+
+
+
+
+
+
+<script>
+  const developerBtn = document.getElementById("developerBtn");
+  const developerPanel = document.getElementById("developerPanel");
+  const submitDevPassword = document.getElementById("submitDevPassword");
+
+  developerBtn.addEventListener("click", () => {
+    developerPanel.style.display = (developerPanel.style.display === "none") ? "block" : "none";
+  });
+
+  submitDevPassword.addEventListener("click", () => {
+    const password = document.getElementById("devPassword").value;
+    const isDevActive = localStorage.getItem("dev-unlock") === "true";
+
+    if (password === "opdevelopers") {
+      if (isDevActive) {
+        localStorage.removeItem("dev-unlock");
+        alert("🔒 Developer mode deactivated!");
+      } else {
+        localStorage.setItem("dev-unlock", "true");
+        alert("✅ Developer mode activated!");
+      }
+      developerPanel.style.display = "none";
+      document.getElementById("devPassword").value = "";
+    } else {
+      alert("❌ Incorrect password.");
+    }
+  });
+</script>
+
+
+
+<!-- 📊 Productivity Button -->
+<button id="productivityBtn">Productivity</button>
+
+<!-- 📈 Productivity Chart Popup -->
+<div id="productivityPopup">
+  <canvas id="productivityChart" width="250" height="250"></canvas>
+</div>
+
+
+<!-- Chart.js CDN
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let productivityChartInstance;
+
+document.getElementById("productivityBtn").addEventListener("click", () => {
+  const tasks = JSON.parse(localStorage.getItem("todo-tasks")) || [];
+  const completed = tasks.filter(t => t.completed).length;
+  const uncompleted = tasks.length - completed;
+
+  const ctx = document.getElementById("productivityChart").getContext("2d");
+
+  // Destroy previous chart if exists
+  if (productivityChartInstance) productivityChartInstance.destroy();
+
+  // Create chart
+  productivityChartInstance = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Completed', 'Uncompleted'],
+      datasets: [{
+        data: [completed, uncompleted],
+        backgroundColor: ['#4CAF50', '#F44336'],
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+
+  // Toggle popup visibility
+  const popup = document.getElementById("productivityPopup");
+  popup.style.display = popup.style.display === "none" ? "block" : "none";
+});
+</script> -->
+
+
+<!-- Chart.js Library (for productivity chart) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const productivityBtn = document.getElementById("productivityBtn");
+  const productivityPopup = document.getElementById("productivityPopup");
+
+  // Create canvas inside the popup if not already there
+  if (!document.getElementById("productivityChart")) {
+    const canvas = document.createElement("canvas");
+    canvas.id = "productivityChart";
+    canvas.width = 250;
+    canvas.height = 250;
+    productivityPopup.appendChild(canvas);
+  }
+
+  productivityBtn.addEventListener("click", () => {
+    const tasks = JSON.parse(localStorage.getItem("todo-tasks")) || [];
+
+    const completedCount = tasks.filter(task => task.completed).length;
+    const uncompletedCount = tasks.filter(task => !task.completed).length;
+
+    // Show popup
+    productivityPopup.style.display = "block";
+
+    // Draw pie chart
+    const ctx = document.getElementById("productivityChart").getContext("2d");
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Completed', 'Uncompleted'],
+        datasets: [{
+          label: 'Productivity',
+          data: [completedCount, uncompletedCount],
+          backgroundColor: ['#4CAF50', '#F44336'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  });
+</script>
+
+
+
+<script>
+  const backBtn = document.getElementById("backBtn");
+  backBtn.addEventListener("click", () => {
+    history.back(); // 👈 goes to previous page
+  });
+</script>
+
+
+<script>
+  document.getElementById("backBtn").addEventListener("click", () => {
+    history.back();
+  });
+</script>
+
+
+  
+</body>
+<script src="app.js"></script>
+</html>

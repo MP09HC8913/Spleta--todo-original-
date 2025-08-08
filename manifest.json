@@ -1,0 +1,21 @@
+{
+  "name": "Spleta - To-Do App",
+  "short_name": "Spleta",
+  "start_url": "splash.html",
+  "display": "standalone",
+  "background_color": "#d62a6f",
+  "theme_color": "#d62a6f",
+  "description": "Your Daily Task Manager",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spleta - Splash</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .logo-container {
+      animation: slideIn 6s ease-out forwards;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    @keyframes slideIn {
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    img {
+      width: 140px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img src="icons/icon-192.png" alt="Spleta Logo" />
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2500); // splash stays for 2.5 seconds
+  </script>
+</body>
+</html>

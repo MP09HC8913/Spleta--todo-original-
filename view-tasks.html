@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Incomplete History Tasks</title>
+  <style>
+    body {
+      background: #f1f1f1;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .task-container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+
+    .delete-all-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .back-btn {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Incomplete History Tasks</h2>
+  <div class="task-container" id="taskContainer">
+    <!-- Dynamic tasks will be inserted here -->
+  </div>
+
+  <button class="delete-all-btn" id="deleteAllBtn">Delete All Tasks</button>
+  <br>
+  <button class="back-btn" onclick="window.location.href='intex.html'">← Back to App</button>
+
+  <script>
+    const taskContainer = document.getElementById("taskContainer");
+    const deleteAllBtn = document.getElementById("deleteAllBtn");
+  
+    function loadIncompleteTasks() {
+      const history = JSON.parse(localStorage.getItem("todo-history")) || [];
+      const allTasks = [];
+  
+      // Flatten all uncompleted tasks from saved history
+      history.forEach(entry => {
+        if (entry.tasks && Array.isArray(entry.tasks)) {
+          allTasks.push(...entry.tasks);
+        }
+      });
+  
+      if (allTasks.length === 0) {
+        taskContainer.innerHTML = `<p>No incomplete tasks in history 🎉</p>`;
+        deleteAllBtn.style.display = "none";
+        return;
+      }
+  
+      deleteAllBtn.style.display = "inline-block";
+  
+      allTasks.forEach((task, index) => {
+        const div = document.createElement("div");
+        div.className = "task-item";
+        div.innerHTML = `
+          <label><input type="checkbox" onchange="markComplete(${index})" /> ${task.text}</label>
+        `;
+        taskContainer.appendChild(div);
+      });
+    }
+  
+    function markComplete(index) {
+      let history = JSON.parse(localStorage.getItem("todo-history")) || [];
+      const allTasks = [];
+  
+      // Flatten tasks
+      history.forEach(entry => {
+        if (entry.tasks && Array.isArray(entry.tasks)) {
+          allTasks.push(...entry.tasks);
+        }
+      });
+  
+      allTasks.splice(index, 1); // Remove marked task
+  
+      // Save back flattened list into a single history entry
+      localStorage.setItem("todo-history", JSON.stringify([
+        { date: new Date().toDateString(), tasks: allTasks }
+      ]));
+  
+      window.location.reload();
+    }
+  
+    deleteAllBtn.onclick = () => {
+      if (confirm("Are you sure you want to delete all tasks?")) {
+        localStorage.removeItem("todo-history");
+        window.location.reload();
+      }
+    };
+  
+    loadIncompleteTasks();
+  </script>
+  
+</body>
+</html>

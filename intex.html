@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>spleta - do it don't remember it </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@1,500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d62a6f">
+<!-- Add this in your <head> if not already added -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  
+
+</head>
+<body>
+
+    <div id="splash-screen">
+        <img src="icons/icon-192.png" alt="Logo" class="splash-logo">
+        <h2 class="splash-title">Welcome to Spleta</h2>
+      </div>
+      
+
+    <div class="container">
+        <div class="todo-app">
+            <h1 id="app-name">To-Do List</h1>
+
+            <div class="stat-container">
+                <div class="details">
+                    <h3 id="motivational-text">Finish your work</h3>
+                    <div id="progressbar">
+                        <div id="progress"></div>
+                    </div>
+                </div>
+                <div class="stats-number">
+                    <p id="numbers">0 / 0</p>
+                </div>
+            </div>
+
+            <form class="input-area">
+                <input type="text" id="task-input-text" placeholder="Add a New Task.....">
+                <button type="submit" id="submit-it"><i class="fa-solid fa-plus"></i></button>
+            </form>
+            <div class="todo-container">
+                <ul id="task-list"></ul>
+                <img class="empty-image" src="images/no-task.png" alt="empty">
+            </div>
+        </div>
+    </div>
+ 
+    <!-- 🔵 History Button -->
+<button id="historyBtn" style="position: absolute; top: 15px; right: 20px; background: #222; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; z-index: 1000;">History</button>
+
+<!-- 🔲 Blur Overlay -->
+<div id="overlayBlur" style="display: none; position: fixed; inset: 0; backdrop-filter: blur(4px); background-color: rgba(0,0,0,0.2); z-index: 998;"></div>
+
+<!-- 🧾 Sliding History Panel -->
+<!-- <div id="historyPanel" style="
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 20px;
+  overflow-y: auto;
+  transition: right 0.4s ease;
+  z-index: 999;
+">
+  <h3 style="margin-top: 0;">Uncompleted Task History</h3>
+  <ul id="historyList" style="list-style: disc; padding-left: 20px;"></ul>
+
+</div> -->
+
+
+<div id="historyPanel" style="
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: white;
+ color: black;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  transition: right 0.4s ease;
+  z-index: 999;
+">
+  <h3 style="margin-top: 0;">Uncompleted Task History</h3>
+  <ul id="historyList" style="flex: 1; overflow-y: auto; list-style: disc; padding-left: 20px;"></ul>
+
+  <!-- 🟢 Bottom Buttons INSIDE Panel -->
+  <div style="display: flex; justify-content: space-between; gap: 8px; margin-top: 10px;">
+    <button id="viewHistoryTasksBtn" style="background: #444; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer;">
+      View Tasks
+    </button>
+    <button id="forceResetBtn"  style= "display: none; background: #b71c1c; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer;">
+      Force Reset
+    </button>
+  </div>
+</div>
+
+
+<!-- 🟦 View History Tasks Page (Initially Hidden) -->
+<div id="historyTasksPage" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; padding: 20px; z-index: 2000; overflow-y: auto;">
+  <h2>Uncompleted Tasks</h2>
+  <ul id="viewTaskList" style="list-style-type: disc; padding-left: 20px;"></ul>
+
+  <button id="deleteAllBtn" style="margin-top: 20px; background-color: red; color: white; border: none; padding: 10px 16px; border-radius: 5px; cursor: pointer;">
+    Delete All Tasks
+  </button>
+  <button onclick="closeViewTaskPage()" style="margin-top: 10px; background: gray; color: white; border: none; padding: 8px 14px; border-radius: 5px; cursor: pointer;">
+    Close
+  </button>
+</div>
+
+<!-- 
+
+
+
+
+
+
+
+<!-- <button id="darkToggle" style="position: absolute; top: 15px; left: 20px;">🌙</button> -->
+
+
+    
+<button class="moreOptionsBtn"><img src="images/gear.png" alt="more option"></button>
+
+
+
+
+
+
+
+
+<script>
+    document.getElementById("forceResetBtn").addEventListener("click", () => {
+      const tasks = JSON.parse(localStorage.getItem("todo-tasks")) || [];
+  
+      const uncompleted = tasks.filter(task => !task.completed);
+      const oldHistory = JSON.parse(localStorage.getItem("todo-history")) || [];
+  
+      // Save history in same format as auto-reset
+      if (uncompleted.length > 0) {
+        oldHistory.push({
+          date: new Date().toDateString(),
+          tasks: uncompleted
+        });
+        localStorage.setItem("todo-history", JSON.stringify(oldHistory));
+      }
+  
+      // Clear all tasks
+      localStorage.removeItem("todo-tasks");
+  
+      // Update last reset date
+      const today = new Date().toDateString();
+      localStorage.setItem("last-reset-date", today);
+  
+      // Refresh task list
+      if (typeof renderTasks === "function") renderTasks();
+  
+      alert("Force Reset Done. Uncompleted tasks saved to history.");
+    });
+  </script>
+  
+  
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('Service Worker registered!'))
+            .catch((err) => console.log('Service Worker failed:', err));
+        }
+        </script>
+
+
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const forceBtn = document.getElementById("forceResetBtn");
+    if (localStorage.getItem("dev-unlock") === "true") {
+      if (forceBtn) forceBtn.style.display = "inline-block";
+    } else {
+      if (forceBtn) forceBtn.style.display = "none";
+    }
+  });
+</script>
+
+
+
+<script>
+    const moreBtn = document.querySelector(".moreOptionsBtn");
+    moreBtn.addEventListener("click", () => {
+        window.location.href = "features.html";
+
+    });
+  </script>
+
+
+  <!-- <script>
+    // Load saved theme from localStorage and apply to index page
+    const savedTheme = localStorage.getItem("selected-theme");
+    if (savedTheme) {
+      document.body.className = "theme-" + savedTheme;
+    }
+  </script>
+
+
+<script>
+  const customImage = localStorage.getItem("custom-theme-bg");
+  if (localStorage.getItem("selected-theme") === "custom" && customImage) {
+    document.body.className = "theme-custom";
+    document.body.style.backgroundImage = `url('${customImage}')`;
+  }
+</script> -->
+
+
+<script>
+  // Load theme from localStorage (including custom theme)
+  window.addEventListener("DOMContentLoaded", () => {
+    const selected = localStorage.getItem("selected-theme");
+    const customImage = localStorage.getItem("your-custom-theme");
+
+    if (selected === "your-theme" && customImage) {
+      document.body.style.background = `url('${customImage}') no-repeat center center fixed`;
+      document.body.style.backgroundSize = "cover";
+    } else if (selected) {
+      document.body.className = "theme-" + selected;
+    }
+  });
+</script>
+
+
+        
+        
+</body>
+
+<script>
+  function applyThemeFromStorage() {
+    const selected = localStorage.getItem("selected-theme");
+    if (selected === "your-theme") {
+      const img = localStorage.getItem("your-custom-theme");
+      if (img) {
+        document.body.style.background = `url('${img}') no-repeat center center fixed`;
+        document.body.style.backgroundSize = "cover";
+      }
+    } else {
+      document.body.className = "theme-" + selected;
+    }
+  }
+
+  applyThemeFromStorage();
+</script>
+
+
+
+
+
+
+
+<script>
+  const savedTheme = localStorage.getItem("selected-theme");
+  const customImage = localStorage.getItem("custom-theme-bg");
+
+  if (savedTheme === "custom" && customImage) {
+    document.body.className = "theme-custom";
+    document.body.style.backgroundImage = `url('${customImage}')`;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.color = "#fff";
+  } else if (savedTheme) {
+    document.body.className = "theme-" + savedTheme;
+  }
+</script>
+<!-- <script src="app.js"></script> -->
+ <script src="app(trial file).js"></script>
+ <!-- <script src="app-fixed-final.js"></script> -->
+<script src="localstorage-tasks.js"></script>
+
+</html>

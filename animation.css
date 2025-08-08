@@ -1,0 +1,16 @@
+/* Fade animation for motivational text */
+#motivational-text {
+    transition: all 0.4s ease;
+    opacity: 1;
+}
+
+#motivational-text.fade {
+    opacity: 0.3;
+    transform: scale(0.98);
+}
+
+
+li {
+    transition: all 0.3s ease-in-out;
+  }
+  
