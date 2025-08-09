@@ -10,10 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
 
-  const toogleemptyimage = () => {
-    emptyimage.style.display = tasklist.children.length === 0 ? 'block' : 'none'
-    todocont.style.width = tasklist.children.length > 0 ? '100%' : '50%';
-  }
+const toogleemptyimage = () => {
+  emptyimage.style.display = tasklist.children.length === 0 ? 'block' : 'none';
+  // no direct style.width manipulation here
+};
+
 
 
   // const updateprogress = (checkcompletion = true) => {

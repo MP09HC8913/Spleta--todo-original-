@@ -483,74 +483,100 @@ body {
   }
   
   
-/* ===== History Panel + Responsive Fixes (paste at EOF) ===== */
+  /* 📱 Mobile & Tablet Responsive Design */
+@media (max-width: 1024px) {
+  body {
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+  }
 
-* { box-sizing: border-box; }
+  /* Make buttons stack nicely on smaller screens */
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
 
-/* Default / hidden state for the side panel */
-#historyPanel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 320px;
-  max-width: 92%;
-  height: 100vh;
-  background: white;
-  color: black;
-  box-shadow: -4px 0 12px rgba(0,0,0,0.25);
-  transform: translateX(110%);   /* off-screen */
-  transition: transform .35s ease;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  padding: 18px;
-  overflow-y: auto;
+  /* Theme & Productivity Buttons */
+  #themeBtn,
+  #productivityBtn,
+  #developerBtn {
+    position: fixed;
+    width: auto;
+    font-size: 14px;
+    padding: 8px 10px;
+    z-index: 1000;
+  }
+
+  #themeBtn {
+    top: 10px;
+    left: 10px;
+  }
+
+  #productivityBtn {
+    top: 10px;
+    right: 10px;
+  }
+
+  #developerBtn {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  /* Theme panel adapts to screen size */
+  #themePanel {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    font-size: 14px;
+  }
+
+  /* Productivity popup fits on smaller screens */
+  #productivityPopup {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    font-size: 14px;
+  }
 }
 
-/* visible state — toggle this class from JS */
-#historyPanel.open {
-  transform: translateX(0);
+/* 📱 Extra Small Devices (Phones in portrait) */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  .task-item {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  #themePanel,
+  #productivityPopup {
+    padding: 8px;
+    font-size: 13px;
+  }
 }
 
-/* Overlay control via class (avoid inline display toggles) */
-#overlayBlur { display: none; position: fixed; inset: 0; backdrop-filter: blur(4px); background-color: rgba(0,0,0,0.18); z-index: 998; }
-#overlayBlur.visible { display: block !important; }
+/* 💻 Large Screens */
+@media (min-width: 1025px) {
+  body {
+    font-size: 18px;
+  }
 
-/* Theme/productivity popups (use same pattern if desired) */
-#themePanel, #productivityPopup {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  width: 320px;
-  max-width: 92%;
-  max-height: 80vh;
-  overflow-y: auto;
-  transition: opacity .25s ease, transform .25s ease;
-}
+  button {
+    font-size: 16px;
+    padding: 10px 14px;
+  }
 
-/* Fluid input row (avoid JS width forcing) */
-.input-area { display:flex; gap:10px; align-items:center; width:100%; }
-.input-area input { flex: 1 1 auto; min-width: 0; padding:12px 14px; border-radius:10px; font-size:1rem; }
-.input-area button { flex: 0 0 48px; width:48px; height:48px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; }
-
-/* Avoid empty-image growing too big */
-.empty-image { display:block; max-width:50%; height:auto; margin:30px auto; }
-
-/* App container sizing */
-.container { width:100%; display:flex; justify-content:center; padding:12px; }
-.todo-app { width:100%; max-width:520px; }
-
-/* Breakpoints */
-@media (max-width: 768px) {
-  .todo-app { padding:18px; max-width:92%; }
-  #historyPanel { width: 300px; }
-  .empty-image { max-width:40%; }
-}
-
-@media (max-width: 480px) {
-  .input-area { flex-direction: column; align-items:stretch; }
-  .input-area button { width:100%; height:auto; padding:12px; }
-  .input-area input { width:100%; }
-  #historyPanel { width: 92%; transform: translateX(110%); right: 4%; left: 4%; }
-  #themePanel, #productivityPopup { right: 4%; left: 4%; width: auto; }
+  #themePanel,
+  #productivityPopup {
+    width: 300px;
+    font-size: 16px;
+  }
 }
