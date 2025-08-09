@@ -483,100 +483,124 @@ body {
   }
   
   
-  /* 📱 Mobile & Tablet Responsive Design */
-@media (max-width: 1024px) {
+/* ==============================
+   Responsive Design for All Pages
+   ============================== */
+
+/* Small mobile devices (up to 480px) */
+@media (max-width: 480px) {
   body {
-    font-size: 16px;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* Make buttons stack nicely on smaller screens */
-  button {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-
-  /* Theme & Productivity Buttons */
-  #themeBtn,
-  #productivityBtn,
-  #developerBtn {
-    position: fixed;
-    width: auto;
-    font-size: 14px;
-    padding: 8px 10px;
-    z-index: 1000;
-  }
-
-  #themeBtn {
-    top: 10px;
-    left: 10px;
-  }
-
-  #productivityBtn {
-    top: 10px;
-    right: 10px;
-  }
-
-  #developerBtn {
-    bottom: 10px;
-    right: 10px;
-  }
-
-  /* Theme panel adapts to screen size */
-  #themePanel {
-    width: 90%;
-    left: 5%;
-    right: 5%;
-    font-size: 14px;
-  }
-
-  /* Productivity popup fits on smaller screens */
-  #productivityPopup {
-    width: 90%;
-    left: 5%;
-    right: 5%;
-    font-size: 14px;
-  }
-}
-
-/* 📱 Extra Small Devices (Phones in portrait) */
-@media (max-width: 600px) {
-  body {
-    font-size: 14px;
-  }
-
-  .task-item {
-    font-size: 14px;
-    padding: 6px;
-  }
-
-  button {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-
-  #themePanel,
-  #productivityPopup {
     padding: 8px;
-    font-size: 13px;
+    background-size: cover;
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .todo-app {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    gap: 20px;
+    border-radius: 14px;
+  }
+
+  #app-name {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .input-area {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-area input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .input-area button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  /* Panels */
+  #historyPanel,
+  #themePanel,
+  #productivityPopup {
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* History & Tasks Pages */
+  .task-container,
+  ul {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  li,
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Buttons */
+  button,
+  .back-btn,
+  .delete-all-btn {
+    width: 100%;
+    font-size: 1rem;
   }
 }
 
-/* 💻 Large Screens */
-@media (min-width: 1025px) {
-  body {
-    font-size: 18px;
+/* Medium devices (tablets, 481px–768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .todo-app {
+    max-width: 90%;
+    padding: 1.5rem;
+    border-radius: 16px;
   }
 
-  button {
-    font-size: 16px;
-    padding: 10px 14px;
+  #app-name {
+    font-size: 1.8rem;
   }
 
+  .input-area input {
+    font-size: 1.1rem;
+  }
+
+  .input-area button {
+    padding: 8px 14px;
+    font-size: 1.1rem;
+  }
+
+  #historyPanel,
   #themePanel,
   #productivityPopup {
-    width: 300px;
-    font-size: 16px;
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    max-height: 85vh;
+  }
+}
+
+/* Large devices (laptops/desktops, above 768px) */
+@media (min-width: 769px) {
+  .todo-app {
+    max-width: 500px;
+    padding: 2rem;
+  }
+
+  #app-name {
+    font-size: 2rem;
   }
 }
