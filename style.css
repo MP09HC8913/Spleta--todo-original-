@@ -580,3 +580,30 @@ body {
     font-size: 16px;
   }
 }
+
+
+/* Fix stretched buttons on small screens */
+@media (max-width: 480px) {
+  button,
+  .btn,
+  .add-btn,
+  #historyBtn,
+  #settingsBtn {
+    width: auto !important;
+    min-width: 48px;
+    max-width: 60px;
+    height: 48px;
+    min-height: 48px;
+    max-height: 60px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  /* Special case: if inside a vertical stack, only full-width where needed */
+  .input-area button {
+    flex: 0 0 auto !important;
+  }
+}
